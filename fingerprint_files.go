@@ -19,7 +19,7 @@ type FFing struct {
 // FWalkResult holds the result of file walk, including error if it occurred
 type FWalkResult struct {
 	ffing *FFing
-	err error
+	err   error
 }
 
 // BuildFFings builds files fingerprints for files in tree rooted at root
@@ -69,12 +69,12 @@ func buildFFing(wg *sync.WaitGroup, cs chan<- FWalkResult, path string, info os.
 			cs <- FWalkResult{nil, err}
 			return
 		}
-		defer f.Close()
 
 		if _, err := io.Copy(hasher, f); err != nil {
 			cs <- FWalkResult{nil, err}
 			return
 		}
+		f.Close()
 
 		ffing := FFing{hex.EncodeToString(hasher.Sum(nil)), info.Name()}
 		Log.Infof("Done	[%s](%.4f) 	@ %s", ffing.Fing[:6], time.Since(start).Seconds(), strings.TrimLeft(path, root))
