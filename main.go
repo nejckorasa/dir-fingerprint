@@ -12,6 +12,8 @@ var Log = logrus.New()
 
 // fingerprint file name
 var RFingFileName string
+// create full fingerprint file = include all files fingerprints
+var FullFing bool
 
 func init() {
 	Log.Formatter = new(prefixed.TextFormatter)
@@ -30,22 +32,26 @@ func main() {
 	Log.Infof("File	%s", RFingFileName)
 
 	// files fingerprints
-	ffings := BuildFFings(root)
+	ffings, skippedCount, err := BuildFFings(root)
+	if err != nil {
+		Log.Fatal(err)
+	}
 	// root fingerprint
 	rfing := BuildRFing(ffings)
 
 	rfingPath := root + RFingFileName
 	SaveRFing(rfing, rfingPath)
 
-	Log.Infof("All Done	[%s](%.4f) 	@ %s", rfing.root[:6], time.Since(start).Seconds(), rfingPath)
+	Log.Infof("All Done	[%s](%.4f) 	@ %s", rfing.Root[:6], time.Since(start).Seconds(), rfingPath)
 	Log.Infof("Processed	%d files", len(ffings))
-	Log.Infof("RFprint	[%s]", rfing.root)
-	Log.Debugf("FFprints	%s", rfing.files)
+	Log.Infof("Skipped	%d files", skippedCount)
+	Log.Infof("RFprint	[%s]", rfing.Root)
 }
 
 // parseArgs parses flags/args and returns root
 func parseArgs() (root string, err error) {
 	flag.StringVar(&RFingFileName, "fing", ".fingerprint", "fingerprint file name")
+	flag.BoolVar(&FullFing, "f", false, "include all files fingerprints in fingerprint file")
 	debug := flag.Bool("d", false, "debug")
 
 	flag.Parse()

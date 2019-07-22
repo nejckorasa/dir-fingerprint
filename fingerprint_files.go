@@ -23,9 +23,9 @@ type FWalkResult struct {
 }
 
 // BuildFFings builds files fingerprints for files in tree rooted at root
-func BuildFFings(root string) []FFing {
-	cs := make(chan FWalkResult, 10)
-	walkFiles(root, cs)
+func BuildFFings(root string) (ffings []FFing, skippedCount int, err error) {
+	cs := make(chan FWalkResult)
+	go walkFiles(root, cs)
 	return receiveFFings(cs)
 }
 
@@ -41,7 +41,7 @@ func walkFiles(root string, cs chan FWalkResult) {
 		return nil
 	})
 	if err != nil {
-		panic(err)
+		Log.Error(err)
 	}
 
 	// wait for wait group and close channels
@@ -83,21 +83,31 @@ func buildFFing(wg *sync.WaitGroup, cs chan<- FWalkResult, path string, info os.
 }
 
 // receiveFFings receives FFings from channel
-func receiveFFings(cs chan FWalkResult) (files []FFing) {
+func receiveFFings(cs chan FWalkResult) (ffings []FFing, skippedCount int, err error) {
+	skippedCount = 0
 	done := make(chan bool, 1)
 
 	go func(cs <-chan FWalkResult, done chan<- bool) {
 		for walkResult := range cs {
-
-			// if there is an error, panic
 			if walkResult.err != nil {
-				panic(walkResult.err.Error())
+				err := walkResult.err
+				switch err.(type) {
+				case *os.PathError:
+					// in case of PathError, skip
+					Log.Error("Skip	", err)
+					skippedCount++
+				default:
+					// in case of unknown error, panic
+					Log.Fatal(err)
+				}
+			} else {
+				ffings = append(ffings, *walkResult.ffing)
 			}
-			files = append(files, *walkResult.ffing)
 		}
 		done <- true
 	}(cs, done)
 
+	// wait for receiver to finish
 	<-done
 	return
 }

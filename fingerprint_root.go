@@ -12,8 +12,8 @@ import (
 
 // RFing represents root fingerprint that comprises all files fingerprints
 type RFing struct {
-	root  string
-	files []string
+	Root  string
+	Files []string
 }
 
 // BuildRFing builds fingerprint for all provided files
@@ -37,7 +37,7 @@ func BuildRFing(ffings []FFing) (rfing RFing) {
 }
 
 // SaveRFing saves fingerprint in path
-func SaveRFing(fingerprint RFing, path string) {
+func SaveRFing(rfing RFing, path string) {
 
 	f, err := os.Create(path)
 	if err != nil {
@@ -45,7 +45,11 @@ func SaveRFing(fingerprint RFing, path string) {
 	}
 	defer f.Close()
 
-	bytes, err := json.MarshalIndent(fingerprint, "", "  ")
+	if !FullFing {
+		rfing.Files = nil
+	}
+
+	bytes, err := json.MarshalIndent(rfing, "", "  ")
 	if err != nil {
 		panic(err)
 	}
