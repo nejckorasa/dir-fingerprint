@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"sort"
 	"strings"
@@ -12,8 +13,9 @@ import (
 
 // RFing represents root fingerprint that comprises all files fingerprints
 type RFing struct {
-	Root  string
-	Files []string
+	Fingerprint string
+	Files       []string
+	Changed     bool // marks if the root fingerprint changed
 }
 
 // BuildRFing builds fingerprint for all provided files
@@ -32,7 +34,7 @@ func BuildRFing(ffings []FFing) (rfing RFing) {
 	}
 
 	fing := hex.EncodeToString(hasher.Sum(nil))
-	rfing = RFing{fing, fings}
+	rfing = RFing{fing, fings, false}
 	return
 }
 
@@ -59,4 +61,30 @@ func SaveRFing(rfing RFing, path string) {
 	}
 
 	return
+}
+
+// ReadRFing reads fingerprint in path
+func ReadRFing(path string) (rfing *RFing, err error) {
+	file, err := os.Open(path)
+	if os.IsNotExist(err) {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	byteValue, _ := ioutil.ReadAll(file)
+	if err := json.Unmarshal(byteValue, &rfing); err != nil {
+		return nil, err
+	}
+
+	return rfing, nil
+}
+
+// Compare compares root fingerprints
+func Compare(oldRfing *RFing, newRfing *RFing) bool {
+	if oldRfing == nil {
+		return true
+	}
+	return oldRfing.Fingerprint != newRfing.Fingerprint
 }
