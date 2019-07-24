@@ -6,8 +6,8 @@ Application written in Go that calculates and stores directory fingerprint/hash 
 # TODO
 
 ## Impl
-- Read current fingerprint and output if it differs
 - Stop processing files when fingerprint change is found?
+- Add to homebrew
 
 ## Docs
 - Add examples
