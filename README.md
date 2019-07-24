@@ -2,7 +2,7 @@
 
 Application written in [Go](https://golang.org/) that creates and stores directory fingerprint from all its files in a tree. Fingerprint is stored in `.fingerprint` file in JSON format, file name can be configured.
 
-Fingerprint file also indicates if *the fingerprint has changed* = *something in the directory tree was modified/added/removed*.
+Fingerprint file also indicates if *the fingerprint has changed* = *something in the directory tree was modified / added / removed*.
 
 # Usage
 
