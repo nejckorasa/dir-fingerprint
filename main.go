@@ -32,18 +32,21 @@ func main() {
 		Log.Fatal(err)
 		return
 	}
+	if root == nil {
+		return
+	}
 
 	Log.Infof("Root 	%s", root)
 	Log.Infof("File	%s", RFingFileName)
 
 	// files fingerprints
-	ffings, skippedCount, err := BuildFFings(root)
+	ffings, skippedCount, err := BuildFFings(*root)
 	if err != nil {
 		Log.Fatal(err)
 	}
 
 	// root fingerprint path
-	rfingPath := root + RFingFileName
+	rfingPath := *root + RFingFileName
 
 	// load old root fingerprint
 	oldRfing, err := ReadRFing(rfingPath)
@@ -61,28 +64,23 @@ func main() {
 	// save new root fingerprint
 	SaveRFing(newRfing, rfingPath)
 
-	Log.Infof("Took	%.5f sec", time.Since(start).Seconds())
-	Log.Infof("For	%d files", len(ffings))
-	Log.Infof("Skip	%d files", skippedCount)
-	fmt.Println()
-	fmt.Printf("Old		[%s]", oldRfing.Fingerprint)
-	fmt.Println()
-	fmt.Printf("New		[%s]", newRfing.Fingerprint)
-	fmt.Println()
-	fmt.Printf("@		%s", rfingPath)
-	fmt.Println()
-	fmt.Printf("Diff		[%s]", strconv.FormatBool(changed))
-	fmt.Println()
+	outputResults(time.Since(start).Seconds(), ffings, skippedCount, oldRfing, newRfing, rfingPath, changed)
 }
 
 // parseArgs parses flags/args and returns root
-func parseArgs(quitLoadingPrint <-chan struct{}) (root string, err error) {
-	flag.StringVar(&RFingFileName, "fing", ".fingerprint", "fingerprint file name")
-	flag.BoolVar(&FullFing, "f", false, "include all files fingerprints in fingerprint file")
+func parseArgs(quitLoadingPrint <-chan struct{}) (root *string, err error) {
+	flag.StringVar(&RFingFileName, "f", ".fingerprint", "fingerprint file name")
+	flag.BoolVar(&FullFing, "files", false, "files, include all files fingerprints in fingerprint file, mind that there might me a lot of them")
 	debug := flag.Bool("d", false, "debug, turn on debug logging")
 	quiet := flag.Bool("q", false, "quiet, turn off logging, only print result")
+	help := flag.Bool("h", false, "help, display usage")
 
 	flag.Parse()
+
+	if *help {
+		flag.Usage()
+		return nil, nil
+	}
 
 	switch {
 	case *debug:
@@ -112,6 +110,16 @@ func parseArgs(quitLoadingPrint <-chan struct{}) (root string, err error) {
 		return root, errors.New("wrong usage, missing root argument")
 	}
 
-	root = args[0]
+	root = &args[0]
 	return root, nil
+}
+
+func outputResults(seconds float64, ffings []FFing, skippedCount int, oldRfing *RFing, newRfing RFing, rfingPath string, rfingChanged bool) {
+	Log.Infof("Took	%.5f sec", seconds)
+	Log.Infof("For	%d files", len(ffings))
+	Log.Infof("Skip	%d files\n", skippedCount)
+	fmt.Printf("Old		%s\n", oldRfing.Fingerprint)
+	fmt.Printf("New		%s\n", newRfing.Fingerprint)
+	fmt.Printf("@		%s\n", rfingPath)
+	fmt.Printf("Diff		%s\n", strconv.FormatBool(rfingChanged))
 }

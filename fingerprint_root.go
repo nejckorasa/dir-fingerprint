@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-// RFing represents root fingerprint that comprises all files fingerprints
+// RFing represents root fingerprint
 type RFing struct {
-	Fingerprint string
-	Files       []string
-	Changed     bool // marks if the root fingerprint changed
+	Fingerprint       string
+	FilesFingerprints []string
+	Changed           bool // marks if the root fingerprint changed
 }
 
 // BuildRFing builds fingerprint for all provided files
@@ -48,7 +48,7 @@ func SaveRFing(rfing RFing, path string) {
 	defer f.Close()
 
 	if !FullFing {
-		rfing.Files = nil
+		rfing.FilesFingerprints = nil
 	}
 
 	bytes, err := json.MarshalIndent(rfing, "", "  ")
