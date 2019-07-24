@@ -124,8 +124,12 @@ func outputResults(seconds float64, ffings []FFing, skippedCount int, oldRfing *
 	Log.Infof("Took	%.5f sec", seconds)
 	Log.Infof("For	%d files", len(ffings))
 	Log.Infof("Skip	%d files\n", skippedCount)
-	fmt.Printf("Old		%s\n", oldRfing.Fingerprint)
-	fmt.Printf("New		%s\n", newRfing.Fingerprint)
+	oldFingerprint := ""
+	if oldRfing != nil {
+		oldFingerprint = oldRfing.Fingerprint
+	}
+	fmt.Printf("Old		[%s]\n", oldFingerprint)
+	fmt.Printf("New		[%s]\n", newRfing.Fingerprint)
 	fmt.Printf("@		%s\n", rfingPath)
 	fmt.Printf("Diff		%s\n", strconv.FormatBool(rfingChanged))
 }
