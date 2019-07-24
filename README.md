@@ -99,11 +99,5 @@ Where:
 
 # TODO
 
-## Impl
 - Stop processing files when fingerprint change is found?
 - Add to homebrew tap
-
-## Docs
-- Add examples
-- Explain usage
-- Add output example
