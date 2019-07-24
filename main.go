@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	prefixed "github.com/x-cray/logrus-prefixed-formatter"
+	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -36,7 +38,7 @@ func main() {
 		return
 	}
 
-	Log.Infof("Root 	%s", root)
+	Log.Infof("Root 	%s", *root)
 	Log.Infof("File	%s", RFingFileName)
 
 	// files fingerprints
@@ -111,6 +113,10 @@ func parseArgs(quitLoadingPrint <-chan struct{}) (root *string, err error) {
 	}
 
 	root = &args[0]
+	if !strings.HasSuffix(*root, string(os.PathSeparator)) {
+		tmp := *root + string(os.PathSeparator)
+		root = &tmp
+	}
 	return root, nil
 }
 
