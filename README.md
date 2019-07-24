@@ -50,7 +50,7 @@ Where:
 And every file processing info line has the following format:
 
 ```
-[time_so_far] INFO  [fingerprint_suffix](seconds_took)  @ <location>
+[time_so_far] INFO Done  [fingerprint_suffix](seconds_took)  @ <location>
 ``` 
 
 #### Quiet logging
