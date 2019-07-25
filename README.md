@@ -9,7 +9,7 @@ Fingerprint is stored in `.fingerprint` file in JSON format, file name can be co
 
 Fingerprint file also indicates if *the fingerprint has changed* = *something in the directory tree was modified / added / removed*.
 
-# Usage
+## Usage
 
 ### Install with Homebrew
 
@@ -45,7 +45,7 @@ Usage of dir-fingerprint:
   -q	quiet, turn off logging, only print result
 ```
 
-# Fingerprint file
+## Fingerprint file
 
 When completed, fingerprint file is created, by default file name is `.fingerprint`. 
 
@@ -84,7 +84,7 @@ Where:
 - **FilesFingerprints** represents all files fingerprints.
 
 
-# Console Output
+## Console Output
 
 #### Default logging
 
@@ -129,12 +129,12 @@ New		[8a7b73f9671004edd50500bc7d3f1837d841a5c086011207259eb2d183823adf]
 Diff		false
 ```
 
-# TODO
+## TODO
 
 - Stop processing files when fingerprint change is found?
 
 
-# Contributing
+## Contributing
 
 
 Pull requests are welcome, [Show your ❤ with a ★](https://github.com/nejckorasa/dir-fingerprint/stargazers)
