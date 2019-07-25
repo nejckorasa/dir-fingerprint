@@ -9,14 +9,20 @@ Fingerprint file also indicates if *the fingerprint has changed* = *something in
 
 # Usage
 
-#### Install with Homebrew:
+### Install with Homebrew
 
 ```bash
-$ brew install nejckorasa/tap/fngprint
+$ brew install nejckorasa/tap/dir-fingerprint
 ```
-Tap can be found [here](https://github.com/nejckorasa/homebrew-tap)
+> Tap can be found [here](https://github.com/nejckorasa/homebrew-tap)
 
-#### Usage:
+Creeate fingerprint for current directory with:
+
+```bash
+$ dir-fingerprint .
+```
+
+### Usage
 
 ```
 Usage of ./dir-fingerprint:
