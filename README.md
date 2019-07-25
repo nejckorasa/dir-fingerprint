@@ -18,7 +18,13 @@ $ brew install nejckorasa/tap/dir-fingerprint
 ```
 > Tap can be found [here](https://github.com/nejckorasa/homebrew-tap)
 
-#### Create fingerprint for current directory with
+#### Create fingerprint for directory
+
+```bash
+$ dir-fingerprint <path_to_directory>
+```
+
+To create fingerprint for current directory:
 
 ```bash
 $ dir-fingerprint .
