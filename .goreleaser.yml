@@ -1,0 +1,47 @@
+before:
+  hooks:
+    - go mod download
+    - go generate ./...
+builds:
+  - env:
+      - CGO_ENABLED=0
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
+checksum:
+  algorithm: sha256
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+brews:
+  - # Name of the project
+    name: fngprint
+
+    # Repository to push the tap to
+    github:
+      owner: nejckorasa
+      name: homebrew-tap
+
+    # Git author used to commit to the repository
+    commit_author:
+      name: nejckorasa
+      email: nejc.korasa@gmail.com
+
+    # Folder inside the repository to put the formula.
+    folder: Formula
+
+    homepage: "https://github.com/nejckorasa/dir-fingerprint/"
+
+    # Your app's description.
+    description: "Application to create and store directory fingerprint from all its files in a tree"
+
+    skip_upload: false
