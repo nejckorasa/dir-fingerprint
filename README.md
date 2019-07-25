@@ -9,6 +9,15 @@ Fingerprint file also indicates if *the fingerprint has changed* = *something in
 
 # Usage
 
+#### Install with Homebrew:
+
+```bash
+$ brew install nejckorasa/tap/fngprint
+```
+Tap can be found [here](https://github.com/nejckorasa/homebrew-tap)
+
+#### Usage:
+
 ```
 Usage of ./dir-fingerprint:
   -d	debug, turn on debug logging
@@ -103,4 +112,3 @@ Where:
 # TODO
 
 - Stop processing files when fingerprint change is found?
-- Add to homebrew tap
