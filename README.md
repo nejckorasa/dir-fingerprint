@@ -5,7 +5,7 @@
 
 Application written in [Go](https://golang.org/) to create and store directory fingerprint from all its files in a tree. 
 
-Fingerprint is stored in `.fingerprint` file in JSON format, file name can be configured.
+Fingerprint is stored in `.fingerprint` file in JSON format, file name can be configured. Hashes are created using SHA-256.
 
 Fingerprint file also indicates if *the fingerprint has changed* = *something in the directory tree was modified / added / removed*.
 
@@ -48,6 +48,8 @@ Usage of dir-fingerprint:
 ## Fingerprint file
 
 When completed, fingerprint file is created, by default file name is `.fingerprint`. 
+
+It contains directory fingerprint created with all files fingerpints (hashes) using SHA-256.
 
 Example:
 ```json
