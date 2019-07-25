@@ -24,7 +24,7 @@ changelog:
       - '^test:'
 brews:
   - # Name of the project
-    name: fngprint
+    name: dir-fingerprint
 
     # Repository to push the tap to
     github:
