@@ -3,8 +3,6 @@ before:
     - go mod download
     - go generate ./...
 builds:
-  - id: "fngprint"
-  - binary: fngprint
   - env:
       - CGO_ENABLED=0
 archives:
