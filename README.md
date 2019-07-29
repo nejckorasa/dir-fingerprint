@@ -90,7 +90,7 @@ Where:
 
 #### Default logging
 
-```
+```bash
 [0000]  INFO Root 	/Users/nejckorasa/dir/that/needs/fingerprint
 [0000]  INFO File	.fingerprint
 [0000]  INFO Done	[45f73b](0.0004) 	@ .DS_Store
@@ -124,7 +124,7 @@ And every file processing info line has the following format:
 
 #### Quiet logging
  
-```
+```bash
 Old		[8a7b73f9671004edd50500bc7d3f1837d841a5c086011207259eb2d183823adf]
 New		[8a7b73f9671004edd50500bc7d3f1837d841a5c086011207259eb2d183823adf]
 @		/Users/nejckorasa/dir/that/needs/fingerprint/.fingerprint
