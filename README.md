@@ -3,7 +3,7 @@
 ![GitHub release](https://img.shields.io/github/release/nejckorasa/dir-fingerprint)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fnejckorasa%2Fdir-fingerprint&via=nejckorasa&text=Generate%20directory%20fingerprint%20with%20all%20its%20files%20in%20a%20tree%20to%20observe%20changes&hashtags=golang%2Cgo%2Cscript%2Cfingerprint%2Cgithub%2Cdirectory%2Chash)
 
-Application written in [Go](https://golang.org/) to create and store directory fingerprint from all its files in a tree. 
+Application written in [Go](https://golang.org/) to create and store directory fingerprint from all its files in a tree. It is ignoring file metadata and just using the files content. 
 
 Fingerprint is stored in `.fingerprint` file in JSON format, file name can be configured. Hashes are created using SHA-256.
 
